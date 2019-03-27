@@ -6,7 +6,8 @@ import moveit_commander
 import sys
 import geometry_msgs.msg
 import moveit_msgs.msg
-import random   
+import random
+import math
 
 print "Imported and running!"
 
@@ -19,7 +20,6 @@ def goto(goal):
   one_arm.set_pose_target(goal)
   plan1 = one_arm.plan()
   one_arm.go(wait=True)
-  rospy.sleep(1)
 
 def main():
     print "Hi"
@@ -42,24 +42,30 @@ def main():
 
     margin = 0.1
     size = 0.164690864
-    z_up = 0.4166802733582
-    z_down = 0.2166802733582
-    x_start = 0.805600268636
-#    y_start = 0.801180714226
+    z_up = 0.20 #+.1 #Add for debug
+    z_down = 0.170273358 #+.1 #Add for debug
+    x_start = 0.790600268636
     y_start = -0.753538976022
     offset_x = 0
     offset_y = 0
 
-#    for x in range(0,1):
+    goal.position.z = z_up
+    goto(goal)
+#Margins
 #        goal.position.x = 1.13498199609
 #        goal.position.y = 0.801180714226
-#        goal.position.z = z_up
 #        goto(goal)
-
 #        goal.position.x = 0.805600268636
 #        goal.position.y = -0.753538976022
 #        goto(goal)
 
+    #O
+    fn = 20
+    goal.position.z = z_down
+    for n in range(0,fn):
+      goal.position.x = x_start+size*(offset_x+.5-(math.sin(2*n*math.pi/(fn-1))/2)-margin)
+      goal.position.y = y_start+size*(offset_y+.5-(math.cos(2*n*math.pi/(fn-1))/2)-margin)
+      goto(goal)
 
     goal.position.z = z_up
     goto(goal)
@@ -68,7 +74,7 @@ def main():
     offset_y += 1;
     goal.position.y = y_start+size*(offset_y+margin)
     goal.position.x = x_start+size*((1+offset_x)-margin)
-    goto(goal)
+#    goto(goal)
     goal.position.z = z_down
     goto(goal)
     goal.position.x = x_start+size*(offset_x+margin)
@@ -85,7 +91,7 @@ def main():
     offset_y += 1;
     goal.position.y = y_start+size*((1+offset_y)-margin)
     goal.position.x = x_start+size*(offset_x+margin)
-    goto(goal)
+#    goto(goal)
     goal.position.z = z_down
     goto(goal)
     goal.position.y = y_start+size*(offset_y+margin)
@@ -111,7 +117,7 @@ def main():
     offset_x += 1;
     goal.position.y = y_start+size*(offset_y+margin)
     goal.position.x = x_start+size*((1+offset_x)-margin)
-    goto(goal)
+ #   goto(goal)
     goal.position.z = z_down
     goto(goal)
     goal.position.y = y_start+size*(offset_y+0.5)
@@ -131,7 +137,7 @@ def main():
     offset_y += 1;
     goal.position.y = y_start+size*(offset_y+margin)
     goal.position.x = x_start+size*((1+offset_x)-margin)
-    goto(goal)
+#    goto(goal)
     goal.position.z = z_down
     goto(goal)
     goal.position.x = x_start+size*(offset_x+margin)
@@ -152,7 +158,7 @@ def main():
     offset_y += 1;
     goal.position.y = y_start+size*(offset_y+margin)
     goal.position.x = x_start+size*((1+offset_x)-margin)
-    goto(goal)
+#    goto(goal)
     goal.position.z = z_down
     goto(goal)
     goal.position.x = x_start+size*(offset_x+margin)
@@ -161,8 +167,8 @@ def main():
     goal.position.x = x_start+size*(offset_x+.5)
     goto(goal)
     goal.position.x = x_start+size*(offset_x+margin)
-    goto(goal)
     goal.position.y = y_start+size*((1+offset_y)-margin)
+    goto(goal)
     goal.position.x = x_start+size*((1+offset_x)-margin)
     goto(goal)
     goal.position.z = z_up
