@@ -22,6 +22,14 @@ def goto(goal):
   plan1 = one_arm.plan()
   one_arm.go(wait=True)
 
+def executePath(waypoints):
+  (plan, fraction) = one_arm.compute_cartesian_path(
+                       waypoints,   # waypoints to follow
+                       0.01,        # eef_step
+                       0.0)         # jump_threshold
+  one_arm.execute(plan, wait=True)
+
+
 def main():
     print "Hi"
     
@@ -55,7 +63,6 @@ def main():
     goto(goal)
 
     waypoints = []
-    waypoints.append(copy.deepcopy(goal))
 #Margins
 #        goal.position.x = 1.13498199609
 #        goal.position.y = 0.801180714226
@@ -70,6 +77,8 @@ def main():
     for n in range(0,fn):
       goal.position.x = x_start+size*(offset_x+.5-(math.sin(2*n*math.pi/(fn-1))/2)-margin)
       goal.position.y = y_start+size*(offset_y+.5-(math.cos(2*n*math.pi/(fn-1))/2)-margin)
+      if n==0:
+        goto(goal)
       waypoints.append(copy.deepcopy(goal))
 
     goal.position.z = z_up
@@ -117,6 +126,9 @@ def main():
     goal.position.z = z_up
     waypoints.append(copy.deepcopy(goal))
 
+    executePath(waypoints)
+    del waypoints[:]
+
     #A
     offset_y = 0;
     offset_x += 1;
@@ -124,7 +136,8 @@ def main():
     goal.position.x = x_start+size*((1+offset_x)-margin)
  #   waypoints.append(copy.deepcopy(goal))
     goal.position.z = z_down
-    waypoints.append(copy.deepcopy(goal))
+    goto(goal)
+#    waypoints.append(copy.deepcopy(goal))
     goal.position.y = y_start+size*(offset_y+0.5)
     goal.position.x = x_start+size*(offset_x+margin)
     waypoints.append(copy.deepcopy(goal))
@@ -179,12 +192,7 @@ def main():
     goal.position.z = z_up
     waypoints.append(copy.deepcopy(goal))
 
-    (plan, fraction) = one_arm.compute_cartesian_path(
-                                   waypoints,   # waypoints to follow
-                                   0.01,        # eef_step
-                                   0.0)         # jump_threshold
-
-    one_arm.execute(plan, wait=True)
+    executePath(waypoints)
 
 #        print "----------------Pose:-------------------"
 #        print one_arm.get_current_pose().pose
