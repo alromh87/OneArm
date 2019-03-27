@@ -8,6 +8,7 @@ import geometry_msgs.msg
 import moveit_msgs.msg
 import random
 import math
+import copy
 
 print "Imported and running!"
 
@@ -49,15 +50,19 @@ def main():
     offset_x = 0
     offset_y = 0
 
+
     goal.position.z = z_up
     goto(goal)
+
+    waypoints = []
+    waypoints.append(copy.deepcopy(goal))
 #Margins
 #        goal.position.x = 1.13498199609
 #        goal.position.y = 0.801180714226
-#        goto(goal)
+#        waypoints.append(copy.deepcopy(goal))
 #        goal.position.x = 0.805600268636
 #        goal.position.y = -0.753538976022
-#        goto(goal)
+#        waypoints.append(copy.deepcopy(goal))
 
     #O
     fn = 20
@@ -65,120 +70,122 @@ def main():
     for n in range(0,fn):
       goal.position.x = x_start+size*(offset_x+.5-(math.sin(2*n*math.pi/(fn-1))/2)-margin)
       goal.position.y = y_start+size*(offset_y+.5-(math.cos(2*n*math.pi/(fn-1))/2)-margin)
-      goto(goal)
+      waypoints.append(copy.deepcopy(goal))
 
     goal.position.z = z_up
-    goto(goal)
+    waypoints.append(copy.deepcopy(goal))
 
     #N
     offset_y += 1;
     goal.position.y = y_start+size*(offset_y+margin)
     goal.position.x = x_start+size*((1+offset_x)-margin)
-#    goto(goal)
+#    waypoints.append(copy.deepcopy(goal))
     goal.position.z = z_down
-    goto(goal)
+    waypoints.append(copy.deepcopy(goal))
     goal.position.x = x_start+size*(offset_x+margin)
-    goto(goal)
+    waypoints.append(copy.deepcopy(goal))
     goal.position.y = y_start+size*((1+offset_y)-margin)
     goal.position.x = x_start+size*((1+offset_x)-margin)
-    goto(goal)
+    waypoints.append(copy.deepcopy(goal))
     goal.position.x = x_start+size*(offset_x+margin)
-    goto(goal)
+    waypoints.append(copy.deepcopy(goal))
     goal.position.z = z_up
-    goto(goal)
+    waypoints.append(copy.deepcopy(goal))
 
     #E
     offset_y += 1;
     goal.position.y = y_start+size*((1+offset_y)-margin)
     goal.position.x = x_start+size*(offset_x+margin)
-#    goto(goal)
+#    waypoints.append(copy.deepcopy(goal))
     goal.position.z = z_down
-    goto(goal)
+    waypoints.append(copy.deepcopy(goal))
     goal.position.y = y_start+size*(offset_y+margin)
-    goto(goal)
+    waypoints.append(copy.deepcopy(goal))
     goal.position.x = x_start+size*((1+offset_x)-margin)
-    goto(goal)
+    waypoints.append(copy.deepcopy(goal))
     goal.position.y = y_start+size*((1+offset_y)-margin)
-    goto(goal)
+    waypoints.append(copy.deepcopy(goal))
     goal.position.z = z_up
-    goto(goal)
+    waypoints.append(copy.deepcopy(goal))
     goal.position.y = y_start+size*(offset_y+margin)
     goal.position.x = x_start+size*(offset_x+0.5)
-    goto(goal)
+    waypoints.append(copy.deepcopy(goal))
     goal.position.z = z_down
-    goto(goal)
+    waypoints.append(copy.deepcopy(goal))
     goal.position.y = y_start+size*((1+offset_y)-margin)
-    goto(goal)
+    waypoints.append(copy.deepcopy(goal))
     goal.position.z = z_up
-    goto(goal)
+    waypoints.append(copy.deepcopy(goal))
 
     #A
     offset_y = 0;
     offset_x += 1;
     goal.position.y = y_start+size*(offset_y+margin)
     goal.position.x = x_start+size*((1+offset_x)-margin)
- #   goto(goal)
+ #   waypoints.append(copy.deepcopy(goal))
     goal.position.z = z_down
-    goto(goal)
+    waypoints.append(copy.deepcopy(goal))
     goal.position.y = y_start+size*(offset_y+0.5)
     goal.position.x = x_start+size*(offset_x+margin)
-    goto(goal)
+    waypoints.append(copy.deepcopy(goal))
     goal.position.y = y_start+size*((1+offset_y)-margin)
     goal.position.x = x_start+size*((1+offset_x)-margin)
-    goto(goal)
+    waypoints.append(copy.deepcopy(goal))
     #TODO enahance A
     goal.position.y = y_start+size*(offset_y+margin)
     goal.position.x = x_start+size*(offset_x+0.5)
-    goto(goal)
+    waypoints.append(copy.deepcopy(goal))
     goal.position.z = z_up
-    goto(goal)
+    waypoints.append(copy.deepcopy(goal))
 
     #R
     offset_y += 1;
     goal.position.y = y_start+size*(offset_y+margin)
     goal.position.x = x_start+size*((1+offset_x)-margin)
-#    goto(goal)
+#    waypoints.append(copy.deepcopy(goal))
     goal.position.z = z_down
-    goto(goal)
+    waypoints.append(copy.deepcopy(goal))
     goal.position.x = x_start+size*(offset_x+margin)
-    goto(goal)
+    waypoints.append(copy.deepcopy(goal))
     goal.position.y = y_start+size*((1+offset_y)-margin)
     goal.position.x = x_start+size*(offset_x+((0.5-margin)/2))
-    goto(goal)
+    waypoints.append(copy.deepcopy(goal))
     goal.position.y = y_start+size*(offset_y+margin)
     goal.position.x = x_start+size*(offset_x+.5)
-    goto(goal)
+    waypoints.append(copy.deepcopy(goal))
     goal.position.y = y_start+size*((1+offset_y)-margin)
     goal.position.x = x_start+size*((1+offset_x)-margin)
-    goto(goal)
+    waypoints.append(copy.deepcopy(goal))
     goal.position.z = z_up
-    goto(goal)
+    waypoints.append(copy.deepcopy(goal))
 
     #M
     offset_y += 1;
     goal.position.y = y_start+size*(offset_y+margin)
     goal.position.x = x_start+size*((1+offset_x)-margin)
-#    goto(goal)
+#    waypoints.append(copy.deepcopy(goal))
     goal.position.z = z_down
-    goto(goal)
+    waypoints.append(copy.deepcopy(goal))
     goal.position.x = x_start+size*(offset_x+margin)
-    goto(goal)
+    waypoints.append(copy.deepcopy(goal))
     goal.position.y = y_start+size*(offset_y+.5)
     goal.position.x = x_start+size*(offset_x+.5)
-    goto(goal)
+    waypoints.append(copy.deepcopy(goal))
     goal.position.x = x_start+size*(offset_x+margin)
     goal.position.y = y_start+size*((1+offset_y)-margin)
-    goto(goal)
+    waypoints.append(copy.deepcopy(goal))
     goal.position.x = x_start+size*((1+offset_x)-margin)
-    goto(goal)
+    waypoints.append(copy.deepcopy(goal))
     goal.position.z = z_up
-    goto(goal)
+    waypoints.append(copy.deepcopy(goal))
 
+    (plan, fraction) = one_arm.compute_cartesian_path(
+                                   waypoints,   # waypoints to follow
+                                   0.01,        # eef_step
+                                   0.0)         # jump_threshold
 
+    one_arm.execute(plan, wait=True)
 
-#        one_arm.set_pose_target(goal)
-#        plan1 = one_arm.plan()
-#        one_arm.go(wait=True)
 #        print "----------------Pose:-------------------"
 #        print one_arm.get_current_pose().pose
 
