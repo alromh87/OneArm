@@ -62,7 +62,7 @@ def main():
         plan1 = one_arm.plan()
         one_arm.go(wait=True)
         
-        goal.position.z = .1
+        goal.position.z = .13
         one_arm.set_pose_target(goal)
         plan1 = one_arm.plan()
         one_arm.go(wait=True)
