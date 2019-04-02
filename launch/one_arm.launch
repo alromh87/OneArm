@@ -1,0 +1,4 @@
+<launch>
+    <node pkg="one_arm" type="one_arm_node" name="one_arm_node" output="screen">
+    </node>
+</launch>
